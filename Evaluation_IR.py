@@ -37,9 +37,25 @@ def closest_docs(query, model, method, mode):
     return topk_docs
 
 def precision_at_k(actual, predicted, k):
+    pred_top_k = predicted[:k]
+
+    true_positives = sum(1 for item in pred_top_k if item in set(actual))
+
+    # precision@k
+    precision = true_positives / k
+    
     return precision
     
 def recall_at_k(actual, predicted, k):
+    pred_top_k = predicted[:k]
+
+    true_positives = sum(1 for item in pred_top_k if item in set(actual))
+
+    total_actual = len(set(actual))
+
+    # recall@k
+    recall = true_positives / total_actual if total_actual >0 else 0 
+    
     return recall
 
 def ap_at_k(actual, predicted, k):
